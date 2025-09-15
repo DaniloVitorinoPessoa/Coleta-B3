@@ -173,7 +173,6 @@ Colunas:
 - maximo (decimal) - Máximo do dia
 - minimo (decimal) - Mínimo do dia
 - negocios (int) - Quantidade de negócios
-- quantidade (bigint) - Quantidade negociada
 - volume_financeiro (decimal) - Volume em R$
 ```
 

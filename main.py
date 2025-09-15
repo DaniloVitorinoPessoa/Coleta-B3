@@ -211,7 +211,7 @@ def main():
     if args.gui:
         try:
             from gui_interface import B3SystemGUI
-            print("🚀 Iniciando interface gráfica...")
+            print("Iniciando interface gráfica...")
             app = B3SystemGUI()
             app.run()
         except ImportError as e:
@@ -228,7 +228,7 @@ def main():
     # Executar com interface de terminal
     if args.terminal:
         try:
-            print("🖥️  Iniciando interface de terminal...")
+            print("Iniciando interface de terminal...")
             print("Conectando ao banco de dados...")
             
             # Inicializar sistema

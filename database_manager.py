@@ -64,7 +64,21 @@ class DatabaseManager:
                 except Exception as e:
                     logger.warning(f"Erro ao adicionar colunas (podem já existir): {e}")
                 
-                # 2. Inserir/Atualizar ativos usando UPSERT
+                # 2. Remover coluna quantidade se existir (migração)
+                try:
+                    # Verificar se a coluna existe antes de tentar remover
+                    result = conn.execute(text("""
+                        SELECT column_name FROM information_schema.columns 
+                        WHERE table_name = 'cotacoes' AND column_name = 'quantidade'
+                    """))
+                    if result.fetchone():
+                        conn.execute(text("ALTER TABLE cotacoes DROP COLUMN quantidade"))
+                        conn.commit()
+                        logger.info("Coluna 'quantidade' removida da tabela cotacoes")
+                except Exception as e:
+                    logger.warning(f"Erro ao remover coluna quantidade (pode não existir): {e}")
+                
+                # 3. Inserir/Atualizar ativos usando UPSERT
                 logger.info(f"Sincronizando {len(df_ativos_novos)} ativos...")
                 for _, row in df_ativos_novos.iterrows():
                     upsert_query = text("""

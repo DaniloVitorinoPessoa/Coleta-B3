@@ -68,7 +68,7 @@ class B3SystemGUI:
         subtitle_label.grid(row=1, column=0, pady=(0, 30))
         
         # Frame para operações do sistema (PRIMEIRO - mais importante)
-        system_frame = ttk.LabelFrame(main_frame, text="Operações do Sistema (Execute Primeiro)", padding="15")
+        system_frame = ttk.LabelFrame(main_frame, text="🔧 Operações do Sistema (Execute Primeiro)", padding="15")
         system_frame.grid(row=2, column=0, sticky=(tk.W, tk.E), pady=(0, 20))
         system_frame.columnconfigure(0, weight=1)
         system_frame.columnconfigure(1, weight=1)
@@ -92,14 +92,14 @@ class B3SystemGUI:
         # Aviso importante
         aviso_label = ttk.Label(
             system_frame,
-            text="Execute 'Coletar Dados B3' primeiro para ter dados nos relatórios",
+            text=" Execute 'Coletar Dados B3' primeiro para ter dados nos relatórios",
             font=('Arial', 9, 'italic'),
             foreground='orange'
         )
         aviso_label.grid(row=1, column=0, columnspan=2, pady=(5, 0))
         
         # Frame para relatórios e consultas (SEGUNDO - após ter dados)
-        buttons_frame = ttk.LabelFrame(main_frame, text="Relatórios e Consultas (Após Coletar Dados)", padding="15")
+        buttons_frame = ttk.LabelFrame(main_frame, text="📊 Relatórios e Consultas (Após Coletar Dados)", padding="15")
         buttons_frame.grid(row=3, column=0, sticky=(tk.W, tk.E), pady=(0, 20))
         buttons_frame.columnconfigure(0, weight=1)
         buttons_frame.columnconfigure(1, weight=1)
@@ -313,16 +313,16 @@ class B3SystemGUI:
         
     def testar_conexao_inicial(self):
         """Testa conexão com o banco na inicialização"""
-        self.log_message("Testando conexão com o banco de dados...")
+        self.log_message("🔌 Testando conexão com o banco de dados...")
         
         try:
             if self.data_workflow.db_manager.test_connection():
-                self.log_message("SUCESSO: Conectado ao banco de dados!")
+                self.log_message(" SUCESSO: Conectado ao banco de dados!")
             else:
-                self.log_message("ERRO: Não foi possível conectar ao banco")
-                self.log_message("Dica: Execute 'docker-compose up -d' para iniciar o PostgreSQL")
+                self.log_message(" ERRO: Não foi possível conectar ao banco")
+                self.log_message(" Dica: Execute 'docker-compose up -d' para iniciar o PostgreSQL")
         except Exception as e:
-            self.log_message(f"ERRO na conexão: {e}")
+            self.log_message(f" ERRO na conexão: {e}")
     
     def run_in_thread(self, func):
         """Executa função em thread separada para não travar a interface"""
@@ -333,7 +333,7 @@ class B3SystemGUI:
         """Handler para consulta de ativos"""
         def execute():
             try:
-                self.log_message("Iniciando consulta de ativos...")
+                self.log_message(" Iniciando consulta de ativos...")
                 
                 # Criar janela de filtros
                 dialog = FilterDialog(self.root, "Filtros para Consulta de Ativos")
@@ -342,7 +342,7 @@ class B3SystemGUI:
                     filtro_tipo = dialog.result.get('tipo')
                     filtro_setor = dialog.result.get('setor')
                     
-                    self.log_message(f"Aplicando filtros - Tipo: {filtro_tipo or 'Todos'}, Setor: {filtro_setor or 'Todos'}")
+                    self.log_message(f" Aplicando filtros - Tipo: {filtro_tipo or 'Todos'}, Setor: {filtro_setor or 'Todos'}")
                     
                     # Capturar saída do console
                     with self.capture_output() as output:
@@ -351,24 +351,24 @@ class B3SystemGUI:
                     console_output = output.getvalue()
                     
                     if df is not None and not df.empty:
-                        self.log_message(f"Consulta concluída! {len(df)} ativos encontrados")
+                        self.log_message(f" Consulta concluída! {len(df)} ativos encontrados")
                         
                         # Criar conteúdo para janela de resultado
-                        title = "Consulta de Ativos"
+                        title = " Consulta de Ativos"
                         content = console_output + "\n\n" + self.show_dataframe_summary(df, "Lista de Ativos")
                         
                         # Exibir janela de resultado
                         self.show_result_window(title, content, df)
                         
                     else:
-                        self.log_message("Nenhum ativo encontrado com os filtros especificados")
+                        self.log_message(" Nenhum ativo encontrado com os filtros especificados")
                         messagebox.showwarning("Aviso", "Nenhum ativo encontrado com os filtros especificados")
                 else:
-                    self.log_message("Consulta cancelada pelo usuário")
+                    self.log_message(" Consulta cancelada pelo usuário")
                     
             except Exception as e:
                 error_msg = f"Erro na consulta de ativos: {e}"
-                self.log_message(f"{error_msg}")
+                self.log_message(f"❌ {error_msg}")
                 messagebox.showerror("Erro", error_msg)
         
         self.run_in_thread(execute)
@@ -385,7 +385,7 @@ class B3SystemGUI:
                 )
                 
                 if not codigo:
-                    self.log_message(" Operação cancelada - código não informado")
+                    self.log_message("❌ Operação cancelada - código não informado")
                     return
                 
                 codigo = codigo.upper().strip()
@@ -410,7 +410,7 @@ class B3SystemGUI:
                     parent=self.root
                 )
                 
-                self.log_message(f"Gerando histórico de cotações para {codigo} ({periodo} dias)...")
+                self.log_message(f"📈 Gerando histórico de cotações para {codigo} ({periodo} dias)...")
                 
                 # Capturar saída do console
                 with self.capture_output() as output:
@@ -419,27 +419,27 @@ class B3SystemGUI:
                 console_output = output.getvalue()
                 
                 if df is not None:
-                    msg = f"Histórico gerado para {codigo}!"
+                    msg = f"✅ Histórico gerado para {codigo}!"
                     if gerar_grafico:
-                        msg += f"\nGráfico salvo como 'historico_{codigo}.html'"
+                        msg += f"\n📊 Gráfico salvo como 'historico_{codigo}.html'"
                     
                     self.log_message(msg)
                     
                     # Criar conteúdo para janela de resultado
-                    title = f"Histórico de Cotações - {codigo}"
+                    title = f"📈 Histórico de Cotações - {codigo}"
                     content = console_output + "\n\n" + self.show_dataframe_summary(df, f"Histórico de {codigo}")
                     
                     # Exibir janela de resultado
                     self.show_result_window(title, content, df)
                     
                 else:
-                    error_msg = f"Nenhum dado encontrado para {codigo}"
+                    error_msg = f"❌ Nenhum dado encontrado para {codigo}"
                     self.log_message(error_msg)
                     messagebox.showwarning("Aviso", f"Nenhum dado encontrado para {codigo}")
                     
             except Exception as e:
                 error_msg = f"Erro no histórico de cotações: {e}"
-                self.log_message(f"{error_msg}")
+                self.log_message(f"❌ {error_msg}")
                 messagebox.showerror("Erro", error_msg)
         
         self.run_in_thread(execute)
@@ -456,11 +456,11 @@ class B3SystemGUI:
                     ano = dialog.result.get('ano')
                     gerar_grafico = dialog.result.get('gerar_grafico', True)
                     
-                    self.log_message(f"Gerando relatório de dividendos...")
+                    self.log_message(f"💰 Gerando relatório de dividendos...")
                     if codigo:
-                        self.log_message(f"Ativo: {codigo}")
+                        self.log_message(f"🎯 Ativo: {codigo}")
                     if ano:
-                        self.log_message(f"Ano: {ano}")
+                        self.log_message(f"📅 Ano: {ano}")
                     
                     # Capturar saída do console
                     with self.capture_output() as output:
@@ -469,14 +469,14 @@ class B3SystemGUI:
                     console_output = output.getvalue()
                     
                     if df is not None:
-                        msg = "Relatório de dividendos gerado!"
+                        msg = "✅ Relatório de dividendos gerado!"
                         if gerar_grafico:
-                            msg += "\nGráfico salvo como 'dividendos_mensal.html'"
+                            msg += "\n📊 Gráfico salvo como 'dividendos_mensal.html'"
                         
                         self.log_message(msg)
                         
                         # Criar conteúdo para janela de resultado
-                        title = "Relatório de Dividendos"
+                        title = "💰 Relatório de Dividendos"
                         if codigo:
                             title += f" - {codigo}"
                         if ano:
@@ -488,15 +488,15 @@ class B3SystemGUI:
                         self.show_result_window(title, content, df)
                         
                     else:
-                        error_msg = "Nenhum dividendo encontrado"
+                        error_msg = "❌ Nenhum dividendo encontrado"
                         self.log_message(error_msg)
                         messagebox.showwarning("Aviso", "Nenhum dividendo encontrado com os filtros especificados")
                 else:
-                    self.log_message("Operação cancelada pelo usuário")
+                    self.log_message("❌ Operação cancelada pelo usuário")
                     
             except Exception as e:
                 error_msg = f"Erro no relatório de dividendos: {e}"
-                self.log_message(f"{error_msg}")
+                self.log_message(f"❌ {error_msg}")
                 messagebox.showerror("Erro", error_msg)
         
         self.run_in_thread(execute)
@@ -511,7 +511,7 @@ class B3SystemGUI:
                     parent=self.root
                 )
                 
-                self.log_message("Gerando dashboard de alocação...")
+                self.log_message("🎯 Gerando dashboard de alocação...")
                 
                 # Capturar saída do console
                 with self.capture_output() as output:
@@ -520,27 +520,27 @@ class B3SystemGUI:
                 console_output = output.getvalue()
                 
                 if df is not None:
-                    msg = "Dashboard de alocação gerado!"
+                    msg = "✅ Dashboard de alocação gerado!"
                     if gerar_graficos:
-                        msg += "\nGráficos salvos:\n- alocacao_setor.html\n- alocacao_tipo.html\n- rentabilidade_ativos.html"
+                        msg += "\n📊 Gráficos salvos:\n- alocacao_setor.html\n- alocacao_tipo.html\n- rentabilidade_ativos.html"
                     
                     self.log_message(msg)
                     
                     # Criar conteúdo para janela de resultado
-                    title = "Dashboard de Alocação da Carteira"
+                    title = "🎯 Dashboard de Alocação da Carteira"
                     content = console_output + "\n\n" + self.show_dataframe_summary(df, "Carteira de Investimentos")
                     
                     # Exibir janela de resultado
                     self.show_result_window(title, content, df)
                     
                 else:
-                    error_msg = "Carteira vazia ou erro na geração"
+                    error_msg = "❌ Carteira vazia ou erro na geração"
                     self.log_message(error_msg)
                     messagebox.showwarning("Aviso", "Carteira vazia ou erro na geração do dashboard")
                     
             except Exception as e:
                 error_msg = f"Erro no dashboard de alocação: {e}"
-                self.log_message(f"{error_msg}")
+                self.log_message(f"❌ {error_msg}")
                 messagebox.showerror("Erro", error_msg)
         
         self.run_in_thread(execute)
@@ -556,26 +556,26 @@ class B3SystemGUI:
                 )
                 
                 if not confirm:
-                    self.log_message("Coleta de dados cancelada pelo usuário")
+                    self.log_message("❌ Coleta de dados cancelada pelo usuário")
                     return
                 
-                self.log_message("Iniciando coleta de dados B3 (D-1)...")
-                self.log_message("Aguarde... Esta operação pode demorar alguns minutos")
+                self.log_message("🔄 Iniciando coleta de dados B3 (D-1)...")
+                self.log_message("⏳ Aguarde... Esta operação pode demorar alguns minutos")
                 
                 success = self.data_workflow.execute()
                 
                 if success:
-                    msg = "Coleta de dados concluída com sucesso!"
+                    msg = "✅ Coleta de dados concluída com sucesso!"
                     self.log_message(msg)
                     messagebox.showinfo("Sucesso", msg)
                 else:
-                    error_msg = "Falha na coleta de dados"
+                    error_msg = "❌ Falha na coleta de dados"
                     self.log_message(error_msg)
                     messagebox.showerror("Erro", "Falha na coleta de dados. Verifique o log para detalhes.")
                     
             except Exception as e:
                 error_msg = f"Erro na coleta de dados: {e}"
-                self.log_message(f"{error_msg}")
+                self.log_message(f"❌ {error_msg}")
                 messagebox.showerror("Erro", error_msg)
         
         self.run_in_thread(execute)
@@ -584,7 +584,7 @@ class B3SystemGUI:
         """Handler para resumo do sistema"""
         def execute():
             try:
-                self.log_message("Gerando resumo do sistema...")
+                self.log_message("📋 Gerando resumo do sistema...")
                 
                 # Capturar saída do console
                 with self.capture_output() as output:
@@ -593,24 +593,24 @@ class B3SystemGUI:
                 console_output = output.getvalue()
                 
                 if success:
-                    msg = "Resumo do sistema gerado!"
+                    msg = "✅ Resumo do sistema gerado!"
                     self.log_message(msg)
                     
                     # Criar conteúdo para janela de resultado
-                    title = "Resumo do Sistema"
+                    title = "📋 Resumo do Sistema"
                     content = console_output
                     
                     # Exibir janela de resultado
                     self.show_result_window(title, content)
                     
                 else:
-                    error_msg = "Erro ao gerar resumo do sistema"
+                    error_msg = "❌ Erro ao gerar resumo do sistema"
                     self.log_message(error_msg)
                     messagebox.showerror("Erro", "Erro ao gerar resumo do sistema")
                     
             except Exception as e:
                 error_msg = f"Erro no resumo do sistema: {e}"
-                self.log_message(f"{error_msg}")
+                self.log_message(f"❌ {error_msg}")
                 messagebox.showerror("Erro", error_msg)
         
         self.run_in_thread(execute)
@@ -626,11 +626,11 @@ class B3SystemGUI:
                 )
                 
                 if not confirm:
-                    self.log_message("Execução cancelada pelo usuário")
+                    self.log_message("❌ Execução cancelada pelo usuário")
                     return
                 
-                self.log_message("Executando todos os relatórios...")
-                self.log_message("Aguarde... Esta operação pode demorar alguns minutos")
+                self.log_message("🚀 Executando todos os relatórios...")
+                self.log_message("⏳ Aguarde... Esta operação pode demorar alguns minutos")
                 
                 # Capturar saída do console
                 with self.capture_output() as output:
@@ -639,24 +639,24 @@ class B3SystemGUI:
                 console_output = output.getvalue()
                 
                 if success:
-                    msg = "Todos os relatórios foram executados com sucesso!"
+                    msg = "✅ Todos os relatórios foram executados com sucesso!"
                     self.log_message(msg)
                     
                     # Criar conteúdo para janela de resultado
-                    title = "Execução de Todos os Relatórios"
+                    title = "🚀 Execução de Todos os Relatórios"
                     content = console_output
                     
                     # Exibir janela de resultado
                     self.show_result_window(title, content)
                     
                 else:
-                    error_msg = "Falha na execução dos relatórios"
+                    error_msg = "❌ Falha na execução dos relatórios"
                     self.log_message(error_msg)
                     messagebox.showerror("Erro", "Falha na execução dos relatórios")
                     
             except Exception as e:
                 error_msg = f"Erro ao executar relatórios: {e}"
-                self.log_message(f"{error_msg}")
+                self.log_message(f"❌ {error_msg}")
                 messagebox.showerror("Erro", error_msg)
         
         self.run_in_thread(execute)
@@ -727,7 +727,7 @@ class FilterDialog:
         self.setor_combo.pack(fill=tk.X, pady=(0, 15))
         
         # Info label
-        self.info_label = ttk.Label(main_frame, text="Selecione um tipo para filtrar setores disponíveis", 
+        self.info_label = ttk.Label(main_frame, text="💡 Selecione um tipo para filtrar setores disponíveis", 
                                    font=('Arial', 9), foreground='gray')
         self.info_label.pack(pady=(0, 15))
         
@@ -740,13 +740,13 @@ class FilterDialog:
         
         ttk.Button(
             button_frame,
-            text="Consultar",
+            text="🔍 Consultar",
             command=self.ok_clicked
         ).pack(side=tk.RIGHT, padx=(5, 0))
         
         ttk.Button(
             button_frame,
-            text="Cancelar",
+            text="❌ Cancelar",
             command=self.cancel_clicked
         ).pack(side=tk.RIGHT)
     
@@ -764,7 +764,7 @@ class FilterDialog:
             
             if total_ativos == 0:
                 self.setor_combo['values'] = [""]
-                self.info_label.config(text="Nenhum ativo encontrado no banco. Execute a coleta de dados primeiro.")
+                self.info_label.config(text="⚠️ Nenhum ativo encontrado no banco. Execute a coleta de dados primeiro.")
                 self.setor_combo.set("")
                 return
             
@@ -783,15 +783,15 @@ class FilterDialog:
                 
                 # Atualizar info label
                 if tipo_filtro:
-                    self.info_label.config(text=f"{len(df)} setores encontrados para {tipo_filtro}")
+                    self.info_label.config(text=f"✅ {len(df)} setores encontrados para {tipo_filtro}")
                 else:
-                    self.info_label.config(text=f"{len(df)} setores disponíveis no total")
+                    self.info_label.config(text=f"📊 {len(df)} setores disponíveis no total")
             else:
                 self.setor_combo['values'] = [""]
                 if tipo_filtro:
-                    self.info_label.config(text=f"Nenhum setor encontrado para {tipo_filtro}")
+                    self.info_label.config(text=f"⚠️ Nenhum setor encontrado para {tipo_filtro}")
                 else:
-                    self.info_label.config(text="Dados sem informação de setor")
+                    self.info_label.config(text="⚠️ Dados sem informação de setor")
             
             # Resetar seleção
             self.setor_combo.set("")
@@ -801,7 +801,7 @@ class FilterDialog:
             import traceback
             traceback.print_exc()
             self.setor_combo['values'] = [""]
-            self.info_label.config(text=f"Erro ao carregar setores")
+            self.info_label.config(text=f"❌ Erro ao carregar setores")
     
     def on_tipo_changed(self, event=None):
         """Handler para mudança de tipo"""

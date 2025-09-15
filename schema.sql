@@ -1,4 +1,5 @@
-create table ativos (
+create table ativos
+(
   id serial primary key,
   codigo varchar(12) not null unique,
   nome varchar(120),
@@ -6,7 +7,8 @@ create table ativos (
   setor varchar(80)
 );
 
-create table cotacoes (
+create table cotacoes
+(
   id bigserial primary key,
   id_ativo int not null references ativos(id),
   data date not null,
@@ -15,12 +17,12 @@ create table cotacoes (
   maximo numeric(18,4),
   minimo numeric(18,4),
   negocios int,
-  quantidade bigint,
   volume_financeiro numeric(20,2),
   unique (id_ativo, data)
 );
 
-create table dividendos (
+create table dividendos
+(
   id bigserial primary key,
   id_ativo int not null references ativos(id),
   data date not null,
