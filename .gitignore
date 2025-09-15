@@ -1,0 +1,106 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+*.tmp
+
+# PostgreSQL Data Directory (Docker volumes)
+data/
+postgres_data/
+*.pid
+*.opts
+postmaster.pid
+postmaster.opts
+
+# PostgreSQL Config Files (Docker generates these)
+postgresql.conf
+postgresql.auto.conf
+pg_hba.conf
+pg_ident.conf
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment variables
+.env
+.env.local
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Sistema B3 - Arquivos gerados
+*.html
+historico_*.html
+alocacao_*.html
+rentabilidade_*.html
+dividendos_*.html
+
+# Dados temporários
+*.csv
+*.zip
+COTAHIST_*.txt
+
+# Backups
+*.bak
+*.backup
+
+# Sistema B3 - Pastas vazias ou temporárias
+modules/
+workflows/
+temp/
+backup/
