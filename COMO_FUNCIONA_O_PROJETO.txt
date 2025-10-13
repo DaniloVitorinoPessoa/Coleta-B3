@@ -1,0 +1,268 @@
+================================================================================
+                    COMO FUNCIONA O PROJETO - GUIA COMPLETO
+================================================================================
+
+RESUMO DO PROJETO
+================================================================================
+Este é um sistema de análise financeira que coleta dados da B3 (Bolsa de 
+Valores brasileira), armazena em um banco PostgreSQL e gera relatórios e 
+gráficos interativos sobre ações, FIIs e dividendos.
+
+OBJETIVO PRINCIPAL
+================================================================================
+- Automatizar a coleta de dados financeiros da B3
+- Organizar dados em um banco de dados estruturado  
+- Gerar relatórios e análises visuais
+- Criar dashboards interativos para tomada de decisão
+
+ESTRUTURA DO BANCO DE DADOS
+================================================================================
+O sistema usa 3 tabelas principais:
+
+1. ATIVOS - Lista de todos os ativos (ações, FIIs, ETFs, BDRs)
+   - Código (PETR4, VALE3, etc.)
+   - Nome da empresa
+   - Tipo (ACAO, FII, ETF, BDR)
+   - Setor (Petróleo, Bancos, etc.)
+
+2. COTAÇÕES - Preços históricos diários
+   - Preço abertura, fechamento, máximo, mínimo
+   - Volume financeiro negociado
+   - Data da cotação
+
+3. DIVIDENDOS - Histórico de dividendos pagos
+   - Valor do dividendo
+   - Data de pagamento
+   - Tipo de provento
+
+COMO EXECUTAR O PROJETO
+================================================================================
+
+PASSO 1: PREPARAR O AMBIENTE
+----------------------------
+1. Abra o PowerShell/Terminal
+2. Navegue até a pasta do projeto:
+   cd "C:\Users\danilo.pessoa\OneDrive\Área de Trabalho\Projeto_Facul"
+3. Execute: python main.py
+
+PASSO 2: PRIMEIRA EXECUÇÃO (MUITO IMPORTANTE!)
+----------------------------------------------
+1. A interface gráfica vai abrir
+2. PRIMEIRO clique em "Coletar Dados B3 (D-1)"
+   - Isso baixa os dados mais recentes da B3
+   - Pode demorar alguns minutos
+   - Popula as tabelas: ativos, cotacoes, dividendos
+3. Aguarde a mensagem "Coleta concluída com sucesso!"
+
+PASSO 3: USAR OS RELATÓRIOS
+---------------------------
+Agora você pode usar todas as funcionalidades!
+
+FUNCIONALIDADES DETALHADAS
+================================================================================
+
+1. COLETAR DADOS B3 (D-1)
+----------------------------
+O QUE FAZ:
+- Baixa arquivo COTAHIST da B3 (dados do dia anterior)
+- Extrai informações de ~500 ativos
+- Classifica por tipo (Ação, FII, ETF, BDR) e setor
+- Salva cotações históricas
+- Processa dividendos
+
+QUANDO USAR:
+- Na primeira execução (obrigatório)
+- Diariamente para manter dados atualizados
+- Após fim de semana ou feriados
+
+RESULTADO:
+- Tabela "ativos" populada com ~500 ativos
+- Tabela "cotacoes" com preços do dia anterior
+- Tabela "dividendos" com proventos recentes
+
+2. CONSULTAR ATIVOS
+---------------------
+O QUE FAZ:
+- Lista todos os ativos disponíveis
+- Filtra por tipo (Ação, FII, ETF, BDR)
+- Filtra por setor (Bancos, Petróleo, etc.)
+
+COMO USAR:
+1. Clique em "Consultar Ativos"
+2. Escolha filtros (ou deixe vazio para ver todos)
+3. Veja a lista completa em uma janela
+
+RESULTADO:
+- Tabela com código, nome, tipo e setor
+- Informações organizadas e filtradas
+
+3. HISTORICO DE COTACOES
+--------------------------
+O QUE FAZ:
+- Mostra preços históricos de um ativo específico
+- Gera gráfico de candlestick interativo PROFISSIONAL
+- Inclui volume de negociação
+- Calcula linhas de suporte e resistência
+- Abre automaticamente no navegador
+
+COMO USAR:
+1. Clique em "Histórico de Cotações"
+2. Digite código do ativo (ex: PETR4)
+3. Escolha período em dias (ex: 30)
+4. Clique em "Buscar Historico" ou "Gerar Grafico"
+
+RESULTADO:
+- Tabela com preços diários (OHLC + Volume)
+- Arquivo HTML com gráfico interativo estilo TradingView
+- Cores profissionais (verde/vermelho)
+- Linhas de suporte e resistência automáticas
+- Análise visual completa de tendências
+
+4. RELATORIO DE DIVIDENDOS
+----------------------------
+O QUE FAZ:
+- Lista dividendos pagos por ativos
+- Filtra por ativo, ano e trimestre
+- Gera gráfico de distribuição mensal
+
+COMO USAR:
+1. Clique em "Relatório de Dividendos"
+2. Escolha ativo (opcional)
+3. Escolha ano e trimestre
+4. Marque se quer gráfico
+
+RESULTADO:
+- Lista de dividendos pagos
+- Gráfico de barras por mês
+- Análise de yield e frequência
+
+5. DADOS HISTORICOS (30d)
+---------------------------
+O QUE FAZ:
+- Gera dados históricos simulados para os últimos 30 dias
+- Cria cotações baseadas nos preços atuais com variações realistas
+- Permite gráficos com mais dados históricos
+- Pula fins de semana automaticamente
+
+QUANDO USAR:
+- Quando não há dados históricos suficientes
+- Para testar gráficos de candlestick
+- Para análises de tendências de longo prazo
+
+COMO USAR:
+1. Clique em "Dados Historicos (30d)"
+2. Confirme a geração de dados simulados
+3. Aguarde o processamento (pode demorar alguns minutos)
+
+RESULTADO:
+- 30 dias de cotações históricas simuladas
+- Dados realistas baseados em preços atuais
+- Gráficos de candlestick mais completos
+
+6. RESUMO DO SISTEMA
+----------------------
+O QUE FAZ:
+- Mostra estatísticas gerais do banco
+- Conta registros em cada tabela
+- Verifica integridade dos dados
+
+RESULTADO:
+- Total de ativos cadastrados
+- Total de cotações armazenadas
+- Total de dividendos registrados
+
+7. EXECUTAR TODOS OS RELATORIOS
+---------------------------------
+O QUE FAZ:
+- Executa todos os relatórios de uma vez
+- Gera todos os gráficos disponíveis
+
+QUANDO USAR:
+- Para análise completa
+- Apresentações
+- Backup de relatórios
+
+FLUXO RECOMENDADO DE USO
+================================================================================
+
+PRIMEIRA VEZ:
+1. Execute: python main.py
+2. Clique: "Coletar Dados B3" (OBRIGATÓRIO - aguarde terminar)
+3. Clique: "Dados Historicos (30d)" (RECOMENDADO - para graficos completos)
+4. Use os relatórios conforme necessidade
+
+USO DIÁRIO:
+1. Execute: python main.py
+2. Clique: "Coletar Dados B3" (atualizar preços)
+3. Use os relatórios para análises
+
+PARA GRÁFICOS MELHORES:
+1. Execute "Dados Historicos (30d)" periodicamente
+2. Isso garante gráficos de candlestick mais completos
+3. Dados simulados baseados em preços reais
+
+PROBLEMAS COMUNS E SOLUCOES
+================================================================================
+
+PROBLEMA: "Nenhum dado encontrado para [ATIVO]"
+SOLUCAO: Execute "Dados Historicos (30d)" para gerar dados simulados
+
+PROBLEMA: Gráfico de candlestick vazio ou com poucos dados
+SOLUCAO: Use "Dados Historicos (30d)" para ter 30 dias de dados
+
+PROBLEMA: "Nenhum ativo encontrado"
+SOLUÇÃO: Execute "Coletar Dados B3" primeiro
+
+PROBLEMA: Erro de conexão
+SOLUÇÃO: Verifique se PostgreSQL está rodando (docker-compose up -d)
+
+PROBLEMA: Relatório sem dados
+SOLUÇÃO: Certifique-se que coletou dados da B3 recentemente
+
+PROBLEMA: Código de ativo não encontrado
+SOLUÇÃO: Use códigos corretos (PETR4, VALE3, ITUB4, etc.)
+
+ARQUIVOS GERADOS
+================================================================================
+O sistema gera arquivos HTML com gráficos interativos PROFISSIONAIS:
+
+- historico_[CODIGO].html - Gráfico de candlestick estilo TradingView
+  * Cores profissionais (verde/vermelho)
+  * Linhas de suporte e resistência
+  * Volume integrado
+  * Abre automaticamente no navegador
+  
+- dividendos_mensal.html - Gráfico de dividendos
+
+Abra estes arquivos no navegador para visualizar!
+Os gráficos são interativos e podem ser usados em apresentações.
+
+DICAS IMPORTANTES
+================================================================================
+
+1. SEMPRE execute "Coletar Dados B3" antes de usar outros relatórios
+2. Execute coleta diariamente para dados atualizados
+3. Use "Dados Historicos (30d)" para graficos mais completos
+4. Use filtros nos relatórios para análises específicas
+5. Guarde os arquivos HTML gerados para apresentações
+6. Gráficos de candlestick agora são PROFISSIONAIS estilo TradingView
+
+RESUMO EXECUTIVO
+================================================================================
+Este sistema transforma você em um analista financeiro profissional:
+
+Dados automatizados da B3
+Banco de dados estruturado
+Relatorios visuais interativos
+Analise de dividendos e cotacoes
+Graficos profissionais para apresentacoes
+
+PRÓXIMOS PASSOS:
+1. Execute o sistema
+2. Colete dados da B3
+3. Explore os relatórios
+4. Tome decisões baseadas em dados!
+
+================================================================================
+                            BOA ANALISE!
+================================================================================
