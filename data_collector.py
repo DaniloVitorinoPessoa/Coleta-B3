@@ -513,58 +513,59 @@ class B3DataCollector:
         try:
             logger.info("Coletando dados de dividendos...")
 
-            # Simular coleta de dividendos (em produção, viria de API específica)
-            # Por enquanto, vamos gerar alguns dados de exemplo baseados nos FIIs
-            dividendos_exemplo = [
-                {
-                    "codigo": "HGLG11",
-                    "data": "2024-01-15",
-                    "valor": 0.85,
-                    "tipo": "Rendimento",
-                },
-                {
-                    "codigo": "XPML11",
-                    "data": "2024-01-20",
-                    "valor": 0.92,
-                    "tipo": "Rendimento",
-                },
-                {
-                    "codigo": "BTLG11",
-                    "data": "2024-01-25",
-                    "valor": 0.78,
-                    "tipo": "Rendimento",
-                },
-                {
-                    "codigo": "VISC11",
-                    "data": "2024-02-15",
-                    "valor": 0.88,
-                    "tipo": "Rendimento",
-                },
-                {
-                    "codigo": "HGLG11",
-                    "data": "2024-02-15",
-                    "valor": 0.87,
-                    "tipo": "Rendimento",
-                },
-                {
-                    "codigo": "PETR4",
-                    "data": "2024-03-15",
-                    "valor": 1.25,
-                    "tipo": "Dividendo",
-                },
-                {
-                    "codigo": "VALE3",
-                    "data": "2024-03-20",
-                    "valor": 2.15,
-                    "tipo": "Dividendo",
-                },
-                {"codigo": "ITUB4", "data": "2024-03-25", "valor": 0.45, "tipo": "JCP"},
+            # Gerar dividendos para o ano atual dinamicamente
+            from datetime import datetime, timedelta
+            import random
+
+            ano_atual = datetime.now().year
+
+            # Lista de ativos conhecidos que pagam dividendos
+            ativos_dividendos = [
+                {"codigo": "HGLG11", "tipo": "Rendimento", "valor_base": 0.85},
+                {"codigo": "XPML11", "tipo": "Rendimento", "valor_base": 0.92},
+                {"codigo": "BTLG11", "tipo": "Rendimento", "valor_base": 0.78},
+                {"codigo": "VISC11", "tipo": "Rendimento", "valor_base": 0.88},
+                {"codigo": "PETR4", "tipo": "Dividendo", "valor_base": 1.25},
+                {"codigo": "VALE3", "tipo": "Dividendo", "valor_base": 2.15},
+                {"codigo": "ITUB4", "tipo": "JCP", "valor_base": 0.45},
+                {"codigo": "BBDC4", "tipo": "Dividendo", "valor_base": 0.75},
+                {"codigo": "ABEV3", "tipo": "Dividendo", "valor_base": 0.35},
+                {"codigo": "WEGE3", "tipo": "Dividendo", "valor_base": 0.28},
             ]
 
-            df_dividendos = pd.DataFrame(dividendos_exemplo)
+            dividendos_gerados = []
+
+            # Gerar dividendos mensais para cada ativo
+            for ativo in ativos_dividendos:
+                for mes in range(1, 13):  # Janeiro a Dezembro
+                    # Gerar data aleatória no mês
+                    try:
+                        dia = random.randint(10, 25)  # Entre dia 10 e 25 do mês
+                        data_dividendo = datetime(ano_atual, mes, dia)
+
+                        # Variar o valor base em ±20%
+                        variacao = random.uniform(0.8, 1.2)
+                        valor = round(ativo["valor_base"] * variacao, 2)
+
+                        dividendos_gerados.append(
+                            {
+                                "codigo": ativo["codigo"],
+                                "data": data_dividendo.strftime("%Y-%m-%d"),
+                                "valor": valor,
+                                "tipo": ativo["tipo"],
+                            }
+                        )
+
+                    except ValueError:
+                        # Se o dia não existe no mês (ex: 30 de fevereiro), pular
+                        continue
+
+            df_dividendos = pd.DataFrame(dividendos_gerados)
             df_dividendos["data"] = pd.to_datetime(df_dividendos["data"])
 
-            logger.info(f"Coletados {len(df_dividendos)} registros de dividendos")
+            logger.info(
+                f"Gerados {len(df_dividendos)} registros de dividendos para o ano {ano_atual}"
+            )
             return df_dividendos
 
         except Exception as e:

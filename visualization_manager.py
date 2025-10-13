@@ -357,7 +357,14 @@ class VisualizationManager:
     def create_dividends_chart(self, codigo_ativo=None, ano=None, trimestre=None):
         """Cria grafico de dividendos"""
         try:
+            logger.info(f"Iniciando criacao de grafico de dividendos")
+            logger.info(
+                f"Parametros: codigo={codigo_ativo}, ano={ano}, trimestre={trimestre}"
+            )
+
             import plotly.express as px
+            import os
+            import webbrowser
 
             query = """
                 SELECT a.codigo, a.nome, d.data, d.valor, d.tipo,
@@ -389,11 +396,25 @@ class VisualizationManager:
 
             query += " ORDER BY d.data"
 
+            logger.info(f"Executando query de dividendos...")
             df = self.db.execute_query(query, params if params else None)
+            logger.info(f"Query executada. Registros encontrados: {len(df)}")
 
             if df.empty:
-                logger.warning("Nenhum dividendo encontrado")
+                logger.warning(
+                    "Nenhum dividendo encontrado para os filtros especificados"
+                )
+                print(
+                    "AVISO: Nenhum dividendo encontrado para os filtros especificados"
+                )
+                print(
+                    "SUGESTAO: Verifique se ha dados de dividendos no banco ou tente sem filtros"
+                )
                 return None
+
+            logger.info(f"Dados de dividendos obtidos: {len(df)} registros")
+            logger.info(f"Primeiras datas: {df['data'].head().tolist()}")
+            logger.info(f"Primeiros valores: {df['valor'].head().tolist()}")
 
             # Grafico mensal
             df_mensal = df.groupby(["ano", "mes"])["valor"].sum().reset_index()
@@ -402,6 +423,8 @@ class VisualizationManager:
                 + "-"
                 + df_mensal["mes"].astype(str).str.zfill(2)
             )
+
+            logger.info(f"Dados mensais agrupados: {len(df_mensal)} periodos")
 
             title = "Dividendos por Mes"
             if codigo_ativo:
@@ -419,23 +442,57 @@ class VisualizationManager:
                     f' - {trimestre_nome.get(trimestre, f"{trimestre}º Trimestre")}'
                 )
 
+            logger.info(f"Criando grafico com titulo: {title}")
+
             fig = px.bar(
                 df_mensal,
                 x="periodo",
                 y="valor",
                 title=title,
                 labels={"valor": "Valor (R$)", "periodo": "Periodo"},
+                color="valor",
+                color_continuous_scale="Blues",
+            )
+
+            # Melhorar layout do grafico
+            fig.update_layout(
+                xaxis_title="Periodo (Ano-Mes)",
+                yaxis_title="Valor Total (R$)",
+                showlegend=False,
+                height=600,
+                width=1000,
             )
 
             filename = "dividendos_mensal.html"
+            full_path = os.path.abspath(filename)
             fig.write_html(filename)
             logger.info(f"Grafico salvo como '{filename}'")
+            logger.info(f"Caminho completo: {full_path}")
+
+            # Tentar abrir no navegador
+            try:
+                webbrowser.open(f"file://{full_path}")
+                logger.info("Grafico de dividendos aberto no navegador")
+                print(f"Grafico de dividendos salvo: {filename}")
+                print(f"Abrindo automaticamente no navegador...")
+            except Exception as browser_error:
+                logger.warning(
+                    f"Nao foi possivel abrir automaticamente: {browser_error}"
+                )
+                print(f"Grafico salvo em: {full_path}")
+                print("Abra manualmente o arquivo no navegador")
 
             return fig
 
-        except ImportError:
-            logger.warning("Plotly nao instalado. Instale com: pip install plotly")
+        except ImportError as e:
+            error_msg = "Plotly nao instalado. Instale com: pip install plotly"
+            logger.error(error_msg)
+            print(f"ERRO: {error_msg}")
             return None
         except Exception as e:
             logger.error(f"Erro ao criar grafico de dividendos: {e}")
+            import traceback
+
+            logger.error(f"Traceback: {traceback.format_exc()}")
+            print(f"ERRO ao gerar grafico de dividendos: {e}")
             return None

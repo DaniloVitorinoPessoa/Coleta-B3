@@ -517,6 +517,45 @@ class B3SystemGUI:
 
         def execute():
             try:
+                # DIAGNOSTICO: Verificar se ha dados de dividendos no banco
+                self.log_message("=== DIAGNOSTICO DE DIVIDENDOS ===")
+
+                # Verificar total de dividendos
+                count_query = "SELECT COUNT(*) as total FROM dividendos"
+                count_df = self.data_workflow.db_manager.execute_query(count_query)
+                total_dividendos = (
+                    count_df.iloc[0]["total"] if not count_df.empty else 0
+                )
+                self.log_message(f"Total de dividendos no banco: {total_dividendos}")
+
+                if total_dividendos == 0:
+                    self.log_message("PROBLEMA: Nenhum dividendo no banco de dados!")
+                    self.log_message(
+                        "SOLUCAO: Execute 'Coletar Dados B3' para inserir dados de dividendos"
+                    )
+
+                    messagebox.showwarning(
+                        "Sem Dados de Dividendos",
+                        "Nenhum dividendo encontrado no banco de dados.\n\n"
+                        + "Para ter dados de dividendos:\n"
+                        + "1. Execute 'Coletar Dados B3 (D-1)'\n"
+                        + "2. Aguarde a coleta completa\n"
+                        + "3. Tente novamente o relatório de dividendos\n\n"
+                        + "Nota: Os dados de dividendos são exemplos simulados incluídos na coleta.",
+                    )
+                    return
+                else:
+                    # Mostrar amostra dos dados
+                    sample_query = "SELECT a.codigo, d.data, d.valor, d.tipo FROM dividendos d JOIN ativos a ON d.id_ativo = a.id LIMIT 5"
+                    sample_df = self.data_workflow.db_manager.execute_query(
+                        sample_query
+                    )
+                    self.log_message("Amostra de dividendos no banco:")
+                    for _, row in sample_df.iterrows():
+                        self.log_message(
+                            f"  {row['codigo']}: R$ {row['valor']:.2f} em {row['data']} ({row['tipo']})"
+                        )
+
                 # Criar janela de filtros para dividendos
                 dialog = DividendsFilterDialog(self.root)
 
@@ -542,10 +581,15 @@ class B3SystemGUI:
 
                     console_output = output.getvalue()
 
-                    if df is not None:
-                        msg = "Relatório de dividendos gerado!"
+                    if df is not None and not df.empty:
+                        msg = f"Relatorio de dividendos gerado! ({len(df)} registros encontrados)"
                         if gerar_grafico:
-                            msg += "\nGráfico salvo como 'dividendos_mensal.html'"
+                            import os
+
+                            graph_path = os.path.abspath("dividendos_mensal.html")
+                            msg += f"\nGrafico salvo como 'dividendos_mensal.html'"
+                            msg += f"\nLocal: {graph_path}"
+                            msg += f"\nO grafico deve abrir automaticamente no seu navegador"
 
                         self.log_message(msg)
 
@@ -566,12 +610,23 @@ class B3SystemGUI:
                         self.show_result_window(title, content, df)
 
                     else:
-                        error_msg = "Nenhum dividendo encontrado"
-                        self.log_message(error_msg)
-                        messagebox.showwarning(
-                            "Aviso",
-                            "Nenhum dividendo encontrado com os filtros especificados",
+                        error_msg = (
+                            "Nenhum dividendo encontrado com os filtros especificados"
                         )
+                        self.log_message(error_msg)
+
+                        # Mensagem mais informativa
+                        aviso_msg = "Nenhum dividendo encontrado com os filtros especificados.\n\n"
+                        aviso_msg += "Possiveis causas:\n"
+                        aviso_msg += "• Os filtros sao muito restritivos\n"
+                        aviso_msg += "• O ativo especificado nao paga dividendos\n"
+                        aviso_msg += "• O periodo especificado nao tem dados\n\n"
+                        aviso_msg += "Tente:\n"
+                        aviso_msg += "• Relatorio sem filtros (deixe campos vazios)\n"
+                        aviso_msg += "• Apenas filtro por ano (ex: 2024)\n"
+                        aviso_msg += "• Codigos que pagam dividendos: HGLG11, XPML11, ITUB4, PETR4"
+
+                        messagebox.showwarning("Aviso", aviso_msg)
                 else:
                     self.log_message("Operação cancelada pelo usuário")
 
@@ -990,8 +1045,8 @@ class DividendsFilterDialog:
 
         # Criar janela
         self.dialog = tk.Toplevel(parent)
-        self.dialog.title("Filtros para Relatório de Dividendos")
-        self.dialog.geometry("400x350")
+        self.dialog.title("Relatório de Dividendos")
+        self.dialog.geometry("480x380")
         self.dialog.resizable(False, False)
         self.dialog.transient(parent)
         self.dialog.grab_set()
@@ -1014,92 +1069,250 @@ class DividendsFilterDialog:
         main_frame = ttk.Frame(self.dialog, padding="20")
         main_frame.pack(fill=tk.BOTH, expand=True)
 
-        # Código do ativo
-        ttk.Label(main_frame, text="Código do Ativo (opcional):").pack(
-            anchor=tk.W, pady=(0, 5)
-        )
-        self.codigo_var = tk.StringVar()
-        codigo_entry = ttk.Entry(main_frame, textvariable=self.codigo_var)
-        codigo_entry.pack(fill=tk.X, pady=(0, 15))
-
-        # Ano
-        ttk.Label(main_frame, text="Ano (opcional):").pack(anchor=tk.W, pady=(0, 5))
-        self.ano_var = tk.StringVar()
-        ano_frame = ttk.Frame(main_frame)
-        ano_frame.pack(fill=tk.X, pady=(0, 15))
-
-        ano_combo = ttk.Combobox(ano_frame, textvariable=self.ano_var, width=10)
-        # Gerar anos de 2020 até ano atual + 1
-        from datetime import datetime
-
-        ano_atual = datetime.now().year
-        anos = [""] + [str(ano) for ano in range(2020, ano_atual + 2)]
-        ano_combo["values"] = anos
-        ano_combo["state"] = "readonly"
-        ano_combo.pack(side=tk.LEFT)
-
-        # Trimestre
-        ttk.Label(main_frame, text="Trimestre (opcional):").pack(
-            anchor=tk.W, pady=(0, 5)
-        )
-        self.trimestre_var = tk.StringVar()
-        trimestre_frame = ttk.Frame(main_frame)
-        trimestre_frame.pack(fill=tk.X, pady=(0, 15))
-
-        trimestre_combo = ttk.Combobox(
-            trimestre_frame, textvariable=self.trimestre_var, width=15
-        )
-        trimestre_combo["values"] = [
-            "",
-            "1º Trimestre",
-            "2º Trimestre",
-            "3º Trimestre",
-            "4º Trimestre",
-        ]
-        trimestre_combo["state"] = "readonly"
-        trimestre_combo.pack(side=tk.LEFT)
-
-        # Info sobre trimestres
-        info_label = ttk.Label(
+        # Título
+        title_label = ttk.Label(
             main_frame,
-            text="1º Trim: Jan-Mar | 2º Trim: Abr-Jun | 3º Trim: Jul-Set | 4º Trim: Out-Dez",
+            text="Relatório de Dividendos",
+            font=("Arial", 14, "bold"),
+        )
+        title_label.pack(pady=(0, 20))
+
+        # Seleção de Ativo
+        ativo_frame = ttk.LabelFrame(main_frame, text="Selecionar Ativo", padding="10")
+        ativo_frame.pack(fill=tk.X, pady=(0, 15))
+
+        # Frame para código e botão
+        codigo_frame = ttk.Frame(ativo_frame)
+        codigo_frame.pack(fill=tk.X, pady=(5, 0))
+
+        ttk.Label(codigo_frame, text="Código do Ativo:").pack(anchor=tk.W, pady=(0, 5))
+
+        # Combobox com lista de ativos
+        self.codigo_var = tk.StringVar()
+        self.codigo_combo = ttk.Combobox(
+            codigo_frame,
+            textvariable=self.codigo_var,
+            state="normal",  # Permite digitação e seleção
+        )
+        self.codigo_combo.pack(fill=tk.X, pady=(0, 5))
+
+        # Carregar lista apenas quando necessário (lazy loading)
+        self.codigo_combo.bind("<Button-1>", self.on_combo_click)
+        self.codigo_combo.bind("<Down>", self.on_combo_click)
+
+        # Inicializar com sugestões básicas de ativos com dividendos
+        self.codigo_combo["values"] = ["", "HGLG11", "XPML11", "ITUB4", "PETR4"]
+
+        # Sugestões
+        suggestion_label = ttk.Label(
+            ativo_frame,
+            text="Apenas ativos com dividendos serão listados",
             font=("Arial", 8),
             foreground="gray",
         )
-        info_label.pack(anchor=tk.W, pady=(0, 15))
+        suggestion_label.pack(anchor=tk.W, pady=(5, 0))
 
-        # Gerar gráfico
-        self.grafico_var = tk.BooleanVar(value=True)
-        ttk.Checkbutton(
-            main_frame, text="Gerar gráfico de dividendos", variable=self.grafico_var
-        ).pack(anchor=tk.W, pady=(0, 20))
+        # Seleção de Período
+        periodo_frame = ttk.LabelFrame(
+            main_frame, text="Selecionar Período", padding="10"
+        )
+        periodo_frame.pack(fill=tk.X, pady=(0, 15))
 
-        # Botões
+        # Ano e Trimestre lado a lado
+        periodo_controls_frame = ttk.Frame(periodo_frame)
+        periodo_controls_frame.pack(fill=tk.X, pady=(5, 0))
+
+        # Ano
+        ano_frame = ttk.Frame(periodo_controls_frame)
+        ano_frame.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 10))
+
+        ttk.Label(ano_frame, text="Ano:").pack(anchor=tk.W, pady=(0, 5))
+        self.ano_var = tk.StringVar()
+        ano_combo = ttk.Combobox(ano_frame, textvariable=self.ano_var, state="readonly")
+
+        # Gerar anos dinamicamente baseado nos dados disponíveis
+        try:
+            from database_manager import DatabaseManager
+
+            db_manager = DatabaseManager()
+
+            # Buscar todos os anos que têm dividendos no banco
+            query_anos = """
+                SELECT DISTINCT EXTRACT(YEAR FROM data_com) as ano
+                FROM dividendos 
+                WHERE data_com IS NOT NULL
+                ORDER BY ano DESC
+            """
+            df_anos = db_manager.execute_query(query_anos)
+
+            if not df_anos.empty:
+                anos_disponiveis = [
+                    str(int(row["ano"])) for _, row in df_anos.iterrows()
+                ]
+                anos = ["Todos"] + anos_disponiveis
+                print(
+                    f"Carregados {len(anos_disponiveis)} anos com dividendos: {', '.join(anos_disponiveis)}"
+                )
+            else:
+                # Fallback se não há dados
+                from datetime import datetime
+
+                ano_atual = datetime.now().year
+                anos = ["Todos"] + [str(ano) for ano in range(2020, ano_atual + 2)]
+                print("Nenhum ano com dividendos encontrado, usando anos padrão")
+
+        except Exception as e:
+            # Fallback em caso de erro
+            print(f"Erro ao carregar anos: {e}")
+            from datetime import datetime
+
+            ano_atual = datetime.now().year
+            anos = ["Todos"] + [str(ano) for ano in range(2020, ano_atual + 2)]
+
+        ano_combo["values"] = anos
+        ano_combo.set("Todos")
+        ano_combo.pack(fill=tk.X)
+
+        # Trimestre
+        trimestre_frame = ttk.Frame(periodo_controls_frame)
+        trimestre_frame.pack(side=tk.LEFT, fill=tk.X, expand=True)
+
+        ttk.Label(trimestre_frame, text="Trimestre:").pack(anchor=tk.W, pady=(0, 5))
+        self.trimestre_var = tk.StringVar()
+        trimestre_combo = ttk.Combobox(
+            trimestre_frame,
+            textvariable=self.trimestre_var,
+            state="readonly",
+        )
+        trimestre_combo["values"] = [
+            "Todos",
+            "1º Trimestre (Jan-Mar)",
+            "2º Trimestre (Abr-Jun)",
+            "3º Trimestre (Jul-Set)",
+            "4º Trimestre (Out-Dez)",
+        ]
+        trimestre_combo.set("Todos")
+        trimestre_combo.pack(fill=tk.X)
+
+        # Botões com texto visível
         button_frame = ttk.Frame(main_frame)
-        button_frame.pack(fill=tk.X)
+        button_frame.pack(fill=tk.X, pady=(25, 10))
 
-        ttk.Button(button_frame, text="OK", command=self.ok_clicked).pack(
-            side=tk.RIGHT, padx=(5, 0)
+        # Botão Cancelar (esquerda)
+        cancel_btn = tk.Button(
+            button_frame,
+            text="Cancelar",
+            command=self.cancel_clicked,
+            width=12,
+            height=1,
+            font=("Arial", 9),
         )
+        cancel_btn.pack(side=tk.LEFT, padx=(0, 10))
 
-        ttk.Button(button_frame, text="Cancelar", command=self.cancel_clicked).pack(
-            side=tk.RIGHT
+        # Botão Gerar Relatório (direita)
+        generate_btn = tk.Button(
+            button_frame,
+            text="Gerar Relatorio",
+            command=self.ok_clicked,
+            width=15,
+            height=1,
+            font=("Arial", 9),
         )
+        generate_btn.pack(side=tk.RIGHT)
+
+    def on_combo_click(self, event=None):
+        """Carrega lista completa apenas quando usuário clica no combo"""
+        # Carregar apenas se ainda não foi carregado
+        if not hasattr(self, "_ativos_loaded"):
+            self.load_ativos_list()
+            self._ativos_loaded = True
+
+    def load_ativos_list(self):
+        """Carrega lista de ativos no combobox - apenas ativos com dividendos"""
+        try:
+            # Cache simples - se já carregou uma vez, não recarrega
+            if hasattr(self, "_ativos_cache") and self._ativos_cache:
+                self.codigo_combo["values"] = self._ativos_cache
+                return
+
+            # Importar a classe aqui para evitar referência circular
+            from database_manager import DatabaseManager
+
+            db_manager = DatabaseManager()
+
+            # Query otimizada - buscar apenas ativos que TÊM dividendos
+            query = """
+                SELECT DISTINCT a.codigo, a.nome, COUNT(d.id) as total_dividendos
+                FROM ativos a
+                INNER JOIN dividendos d ON a.id = d.id_ativo
+                WHERE a.codigo IS NOT NULL AND a.codigo != ''
+                GROUP BY a.codigo, a.nome
+                HAVING COUNT(d.id) > 0
+                ORDER BY a.codigo
+                LIMIT 100
+            """
+            df_ativos = db_manager.execute_query(query)
+
+            if df_ativos.empty:
+                # Se não há dados de dividendos, usar apenas as sugestões conhecidas
+                ativos_list = ["", "HGLG11", "XPML11", "ITUB4", "PETR4"]
+                self.codigo_combo["values"] = ativos_list
+                self._ativos_cache = ativos_list
+                return
+            else:
+                # Criar lista apenas com códigos de ativos que têm dividendos
+                ativos_list = [""] + [
+                    f"{row['codigo']}" for _, row in df_ativos.iterrows()
+                ]
+
+            # Salvar no cache
+            self._ativos_cache = ativos_list
+
+            # Configurar o combobox
+            self.codigo_combo["values"] = ativos_list
+
+            # Bind simplificado - não precisa extrair código
+            self.codigo_combo.bind("<<ComboboxSelected>>", self.on_ativo_selected)
+
+            # Log para debug
+            print(f"Carregados {len(ativos_list)-1} ativos com dividendos")
+
+        except Exception as e:
+            # Em caso de erro, usar apenas as sugestões conhecidas
+            print(f"Erro ao carregar ativos: {e}")
+            ativos_list = ["", "HGLG11", "XPML11", "ITUB4", "PETR4"]
+            self.codigo_combo["values"] = ativos_list
+            self._ativos_cache = ativos_list
+
+    def on_ativo_selected(self, event=None):
+        """Handler otimizado quando um ativo é selecionado no combobox"""
+        selected = self.codigo_combo.get()
+        # Como agora só temos códigos, não precisa processar
+        if selected and selected.strip():
+            self.codigo_var.set(selected.strip().upper())
 
     def ok_clicked(self):
         """Handler para botão OK"""
+        # Código do ativo
         codigo = (
             self.codigo_var.get().strip().upper()
             if self.codigo_var.get().strip()
             else None
         )
-        ano_str = self.ano_var.get().strip()
-        ano = int(ano_str) if ano_str and ano_str.isdigit() else None
 
-        # Processar trimestre
+        # Ano
+        ano_str = self.ano_var.get().strip()
+        ano = None
+        if ano_str and ano_str != "Todos":
+            try:
+                ano = int(ano_str)
+            except ValueError:
+                pass
+
+        # Trimestre
         trimestre_str = self.trimestre_var.get().strip()
         trimestre = None
-        if trimestre_str:
+        if trimestre_str and trimestre_str != "Todos":
             if "1º" in trimestre_str:
                 trimestre = 1
             elif "2º" in trimestre_str:
@@ -1109,11 +1322,14 @@ class DividendsFilterDialog:
             elif "4º" in trimestre_str:
                 trimestre = 4
 
+        # Gerar gráfico (sempre True)
+        gerar_grafico = True
+
         self.result = {
             "codigo": codigo,
             "ano": ano,
             "trimestre": trimestre,
-            "gerar_grafico": self.grafico_var.get(),
+            "gerar_grafico": gerar_grafico,
         }
         self.dialog.destroy()
 
