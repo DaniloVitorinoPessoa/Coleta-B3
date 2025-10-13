@@ -1,135 +1,140 @@
-# 📚 **DOCUMENTAÇÃO - Sistema B3 com Interface Gráfica**
+# DOCUMENTACAO - Sistema B3 com Interface Grafica
 
-## 📋 **ÍNDICE DA DOCUMENTAÇÃO**
+## INDICE DA DOCUMENTACAO
 
-### **🎨 Interface e Uso**
-- [`INTERFACE_GRAFICA.md`](INTERFACE_GRAFICA.md) - **Guia da interface moderna** ⭐
+### Interface e Uso
+- [`INTERFACE_GRAFICA.md`](INTERFACE_GRAFICA.md) - Guia da interface moderna
 - [`GUIA_USO.md`](GUIA_USO.md) - Como usar o sistema passo a passo
 - [`FUNCIONALIDADES.md`](FUNCIONALIDADES.md) - Detalhes de cada funcionalidade
 
-### **⚙️ Instalação e Configuração**
-- [`GUIA_INSTALACAO.md`](GUIA_INSTALACAO.md) - Guia completo de instalação
-- [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) - Solução de problemas
+### Instalacao e Configuracao
+- [`GUIA_INSTALACAO.md`](GUIA_INSTALACAO.md) - Guia completo de instalacao
+- [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) - Solucao de problemas
 
-### **🔧 Documentação Técnica**
-- [`ARQUIVOS_SISTEMA.md`](ARQUIVOS_SISTEMA.md) - Explicação de cada arquivo
+### Documentacao Tecnica
+- [`ARQUIVOS_SISTEMA.md`](ARQUIVOS_SISTEMA.md) - Explicacao de cada arquivo
 - [`ESTRUTURA_PROJETO.md`](ESTRUTURA_PROJETO.md) - Arquitetura do sistema
 
-### **📊 Análise e Visualização**
-- [`TUTORIAL_DBEAVER.md`](TUTORIAL_DBEAVER.md) - **Tutorial completo DBeaver** ⭐
+### Analise e Visualizacao
+- [`TUTORIAL_DBEAVER.md`](TUTORIAL_DBEAVER.md) - Tutorial completo DBeaver
 - [`ANALISE_DADOS.md`](ANALISE_DADOS.md) - DBeaver + Power BI (guia completo)
 
-### **📋 Avaliação**
-- [`AVALIACAO_PROJETO.md`](AVALIACAO_PROJETO.md) - Critérios e documentação para avaliação
+### Avaliacao
+- [`AVALIACAO_PROJETO.md`](AVALIACAO_PROJETO.md) - Criterios e documentacao para avaliacao
 
-## 🎯 **VISÃO GERAL DO SISTEMA**
+## VISAO GERAL DO SISTEMA
 
-### **O que é o Sistema B3?**
-Sistema completo para análise de dados da B3 (Bolsa de Valores brasileira) com **interface gráfica moderna** que:
+### O que e o Sistema B3?
+Sistema completo para analise de dados da B3 (Bolsa de Valores brasileira) com interface grafica moderna que:
 
-- ✅ **Interface intuitiva** com pop-ups e janelas organizadas
-- ✅ **Coleta automática** de ~14.000 ativos da B3
-- ✅ **Classificação inteligente** por tipo e setor
-- ✅ **Gráficos interativos** com Plotly
-- ✅ **Sincronização robusta** de dados
-- ✅ **Integração Power BI** e DBeaver
+- Interface intuitiva com pop-ups e janelas organizadas
+- Coleta automatica de ~14.000 ativos da B3
+- Classificacao inteligente por tipo e setor
+- Graficos interativos com Plotly
+- Sincronizacao robusta de dados
+- Integracao Power BI e DBeaver
+- Dados historicos simulados para analises completas
 
-### **Principais Características**
-- **🎨 Interface Moderna**: tkinter com design responsivo
-- **🔄 Operações Assíncronas**: Não trava durante operações longas
-- **🎯 Filtros Dinâmicos**: Setores carregam baseados no tipo
-- **📊 Visualização Rica**: Tabelas navegáveis + gráficos
-- **🛡️ Tratamento de Erros**: Logs detalhados e recuperação
+### Principais Caracteristicas
+- **Interface Moderna**: tkinter com design responsivo
+- **Operacoes Assincronas**: Nao trava durante operacoes longas
+- **Filtros Dinamicos**: Setores carregam baseados no tipo
+- **Visualizacao Rica**: Tabelas navegaveis + graficos profissionais
+- **Tratamento de Erros**: Logs detalhados e recuperacao
+- **Graficos Candlestick**: Estilo TradingView com suporte/resistencia
 
-### **Tecnologias Utilizadas**
+### Tecnologias Utilizadas
 - **Python 3.8+** - Linguagem principal
-- **tkinter** - Interface gráfica nativa
+- **tkinter** - Interface grafica nativa
 - **PostgreSQL** - Banco de dados robusto
-- **Pandas** - Manipulação de dados
+- **Pandas** - Manipulacao de dados
 - **SQLAlchemy** - ORM para banco
-- **Plotly** - Gráficos interativos
-- **Docker** - Containerização do banco
+- **Plotly** - Graficos interativos profissionais
+- **Docker** - Containerizacao do banco
 
-## 🚀 **INÍCIO RÁPIDO**
+## INICIO RAPIDO
 
-### **1. Execução Imediata**
+### 1. Execucao Imediata
 ```bash
 python main.py
 ```
-*Interface gráfica abre automaticamente*
+*Interface grafica abre automaticamente*
 
-### **2. Primeira Vez (OBRIGATÓRIO)**
-1. Clique em **"⭐ Coletar Dados B3"**
+### 2. Primeira Vez (OBRIGATORIO)
+1. Clique em **"Coletar Dados B3 (D-1)"**
 2. Aguarde coleta (~14.000 ativos)
-3. Dados prontos para análise!
+3. Clique em **"Dados Historicos (30d)"** (RECOMENDADO)
+4. Dados prontos para analise completa!
 
-### **3. Explorar Funcionalidades**
-- **📋 Consultar Ativos** - Lista filtrada
-- **📈 Histórico** - Gráficos de cotações
-- **💰 Dividendos** - Análise de proventos
-- **🎯 Dashboard** - Visão geral carteira
+### 3. Explorar Funcionalidades
+- **Consultar Ativos** - Lista filtrada
+- **Historico de Cotacoes** - Graficos candlestick profissionais
+- **Relatorio de Dividendos** - Analise de proventos
+- **Dados Historicos** - 30 dias de dados simulados
+- **Resumo do Sistema** - Estatisticas gerais
 
-## 📊 **FUNCIONALIDADES PRINCIPAIS**
+## FUNCIONALIDADES PRINCIPAIS
 
-| Interface | Funcionalidade | Descrição |
+| Interface | Funcionalidade | Descricao |
 |-----------|---------------|-----------|
-| 🎨 **Pop-ups** | Entrada de dados | Formulários interativos |
-| 📋 **Tabelas** | Visualização | Dados organizados em abas |
-| 🎯 **Filtros** | Consultas | Filtros dinâmicos inteligentes |
-| 📈 **Gráficos** | Análise visual | Candlestick + dashboards |
-| 🔄 **Background** | Operações longas | Interface não trava |
+| Pop-ups | Entrada de dados | Formularios interativos |
+| Tabelas | Visualizacao | Dados organizados em abas |
+| Filtros | Consultas | Filtros dinamicos inteligentes |
+| Graficos | Analise visual | Candlestick + dashboards profissionais |
+| Background | Operacoes longas | Interface nao trava |
 
-## 🗃️ **DADOS DO SISTEMA**
+## DADOS DO SISTEMA
 
-### **Volume de Dados**
-- **~14.000 ativos** únicos (ações, FIIs, ETFs, BDRs)
-- **Cotações diárias** com preços e volumes
-- **Dividendos históricos** com datas e valores
-- **Classificação automática** em tipos e setores
+### Volume de Dados
+- **~14.000 ativos** unicos (acoes, FIIs, ETFs, BDRs)
+- **Cotacoes diarias** com precos OHLC e volumes
+- **Dividendos historicos** com datas e valores
+- **Classificacao automatica** em tipos e setores
+- **30 dias de dados historicos** simulados
 
-### **Tipos de Ativos**
-- **AÇÃO** (~13.000): Ações ordinárias e preferenciais
-- **FII**: Fundos de Investimento Imobiliário  
+### Tipos de Ativos
+- **ACAO** (~13.000): Acoes ordinarias e preferenciais
+- **FII**: Fundos de Investimento Imobiliario  
 - **ETF**: Exchange Traded Funds
 - **BDR**: Brazilian Depositary Receipts
 
-### **Setores Identificados**
-- **Mineração e Siderurgia** (Vale, CSN)
-- **Bancos** (Itaú, Bradesco, Santander)
-- **Energia Elétrica** (Eletrobras, Cemig)
-- **Petróleo e Gás** (Petrobras)
-- **Telecomunicações** (Tim, Telefônica)
+### Setores Identificados
+- **Mineracao e Siderurgia** (Vale, CSN)
+- **Bancos** (Itau, Bradesco, Santander)
+- **Energia Eletrica** (Eletrobras, Cemig)
+- **Petroleo e Gas** (Petrobras)
+- **Telecomunicacoes** (Tim, Telefonica)
 - **Outros** (Demais setores)
 
-## 🎓 **PARA DESENVOLVEDORES**
+## PARA DESENVOLVEDORES
 
-### **Arquitetura Modular**
+### Arquitetura Modular
 ```
 Sistema B3/
-├── main.py                    # 🚀 Ponto de entrada
-├── gui_interface.py           # 🎨 Interface gráfica
-├── database_manager.py        # 🗃️ Operações de banco
-├── data_collector.py          # 📥 Coleta e classificação
-├── reports_manager.py         # 📊 Relatórios e consultas
-├── visualization_manager.py   # 📈 Gráficos interativos
-├── workflows/                 # 🔄 Fluxos de trabalho
-└── docs/                     # 📚 Documentação
+├── main.py                    # Ponto de entrada
+├── gui_interface.py           # Interface grafica
+├── database_manager.py        # Operacoes de banco
+├── data_collector.py          # Coleta e classificacao
+├── reports_manager.py         # Relatorios e consultas
+├── visualization_manager.py   # Graficos interativos
+├── workflows/                 # Fluxos de trabalho
+└── docs/                     # Documentacao
 ```
 
-### **Fluxo de Dados**
+### Fluxo de Dados
 ```
-B3 API → Coleta → Classificação → PostgreSQL → Interface → Visualização
+B3 API → Coleta → Classificacao → PostgreSQL → Interface → Visualizacao
 ```
 
-### **Padrões Utilizados**
-- **MVC**: Separação de responsabilidades
+### Padroes Utilizados
+- **MVC**: Separacao de responsabilidades
 - **Observer**: Logs em tempo real
-- **Factory**: Criação de gráficos
-- **Strategy**: Diferentes tipos de relatórios
+- **Factory**: Criacao de graficos
+- **Strategy**: Diferentes tipos de relatorios
 
-## 🔗 **INTEGRAÇÃO EXTERNA**
+## INTEGRACAO EXTERNA
 
-### **DBeaver (Recomendado) ⭐**
+### DBeaver (Recomendado)
 ```
 Host: localhost:5432
 Database: b3
@@ -137,35 +142,36 @@ Username: admin
 Password: admin
 ```
 
-### **Power BI**
+### Power BI
 ```
 Fonte: PostgreSQL
 Servidor: localhost:5432
 Consultas: consultas_powerbi.sql
 ```
 
-## 📞 **SUPORTE**
+## SUPORTE
 
-### **Problemas Comuns**
-1. **"Nenhum ativo encontrado"** → Execute "Coletar Dados" primeiro
-2. **"Erro de conexão"** → Verifique `docker ps` e `docker-compose up -d`
-3. **"Interface não responde"** → Normal durante operações longas
+### Problemas Comuns
+1. **"Nenhum ativo encontrado"** → Execute "Coletar Dados B3" primeiro
+2. **"Erro de conexao"** → Verifique `docker ps` e `docker-compose up -d`
+3. **"Interface nao responde"** → Normal durante operacoes longas
+4. **"Nenhum dado para grafico"** → Execute "Dados Historicos (30d)"
 
-### **Diagnóstico**
+### Diagnostico
 ```bash
-# Verificação completa
+# Verificacao completa
 python -c "from database_manager import DatabaseManager; print('OK' if DatabaseManager().test_connection() else 'ERRO')"
 
-# Módulos Python
-python -c "import tkinter, pandas, sqlalchemy, plotly; print('Módulos OK')"
+# Modulos Python
+python -c "import tkinter, pandas, sqlalchemy, plotly; print('Modulos OK')"
 ```
 
-### **Documentação Detalhada**
-Para dúvidas específicas, consulte:
-- [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) - Problemas técnicos
+### Documentacao Detalhada
+Para duvidas especificas, consulte:
+- [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) - Problemas tecnicos
 - [`INTERFACE_GRAFICA.md`](INTERFACE_GRAFICA.md) - Uso da interface
 - [`GUIA_USO.md`](GUIA_USO.md) - Funcionalidades passo a passo
 
 ---
 
-**🎉 Sistema B3 - Interface Moderna para Análise Financeira Profissional** 📊
+**Sistema B3 - Interface Moderna para Analise Financeira Profissional**

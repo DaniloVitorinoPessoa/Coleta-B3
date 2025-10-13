@@ -1,281 +1,262 @@
-# 🎨 Interface Gráfica do Sistema B3
+# Interface Grafica do Sistema B3
 
-## 📋 Visão Geral
+## Visao Geral
 
-O Sistema B3 possui uma **interface gráfica moderna e intuitiva** desenvolvida com `tkinter`, proporcionando uma experiência profissional para análise de dados financeiros.
+O Sistema B3 possui uma **interface grafica moderna e intuitiva** desenvolvida com `tkinter`, proporcionando uma experiencia profissional para analise de dados financeiros.
 
-## 🚀 Como Executar
+## Como Executar
 
-### **Execução Padrão (Interface Gráfica)**
+### Execucao Padrao (Interface Grafica)
 ```bash
 python main.py
 ```
-**A interface gráfica abre automaticamente!**
+**A interface grafica abre automaticamente!**
 
-### **Para usar Interface de Terminal**
-```bash
-python main.py --terminal
-```
+## Funcionalidades da Interface
 
-## ✨ Funcionalidades da Interface
-
-### 🎯 **Design Moderno**
+### Design Moderno
 - **Interface limpa** e profissional
-- **Ícones visuais** para cada funcionalidade  
-- **Logs em tempo real** das operações
+- **Botoes organizados** para cada funcionalidade  
+- **Logs em tempo real** das operacoes
 - **Pop-ups interativos** para entrada de dados
 - **Janelas dedicadas** para resultados
-- **Operações assíncronas** (não trava)
+- **Operacoes assincronas** (nao trava)
 
-### 📊 **Funcionalidades Principais**
+### Funcionalidades Principais
 
-#### **1. 📋 Consultar Ativos**
-- **Filtros dinâmicos**: Tipo → Setor (carrega automaticamente)
+#### 1. Consultar Ativos
+- **Filtros dinamicos**: Tipo → Setor (carrega automaticamente)
 - **Pop-up inteligente** com dropdowns
 - **Resultado em janela dedicada** com duas abas:
-  - 📄 **Relatório**: Lista formatada com estatísticas
-  - 📊 **Dados**: Tabela navegável com scroll
+  - **Relatorio**: Lista formatada com estatisticas
+  - **Dados**: Tabela navegavel com scroll
 
-#### **2. 📈 Histórico de Cotações**  
-- **Entrada via pop-up**: Código + período
-- **Checkbox** para gerar gráfico
-- **Gráfico candlestick** interativo salvo em HTML
-- **Estatísticas** de performance no resultado
+#### 2. Historico de Cotacoes  
+- **Entrada via pop-up**: Codigo + periodo
+- **Botoes separados**: "Buscar Historico" e "Gerar Grafico"
+- **Grafico candlestick profissional** estilo TradingView
+- **Cores profissionais** (verde/vermelho)
+- **Linhas de suporte e resistencia** automaticas
+- **Abre automaticamente** no navegador
+- **Estatisticas** de performance no resultado
 
-#### **3. 💰 Relatório de Dividendos**
+#### 3. Relatorio de Dividendos
 - **Filtros opcionais**: Ativo e/ou ano
-- **Checkbox** para gerar gráfico mensal
+- **Checkbox** para gerar grafico mensal
 - **Resultado tabular** com valores e datas
-- **Resumos estatísticos** automáticos
+- **Resumos estatisticos** automaticos
 
-#### **4. 🎯 Dashboard de Alocação**
-- **Confirmação** antes de gerar
-- **Múltiplos gráficos** criados:
-  - Alocação por setor (pizza)
-  - Alocação por tipo (pizza)  
-  - Rentabilidade por ativo (barras)
+#### 4. Dados Historicos (30d)
+- **Botao dedicado**: "Dados Historicos (30d)"
+- **Confirmacao via pop-up** antes de executar
+- **Progresso em tempo real** nos logs
+- **Geracao de 30 dias** de dados simulados
+- **Base para graficos completos**
 
-#### **5. ⭐ Coletar Dados B3**
-- **Confirmação** antes de executar
-- **Progresso em tempo real** no log
-- **Coleta automática** de ~14.000 ativos
-- **Classificação inteligente** por tipo e setor
+#### 5. Resumo do Sistema
+- **Estatisticas gerais** do banco de dados
+- **Status de conectividade**
+- **Contadores** de registros por tabela
 
-#### **6. 📋 Resumo do Sistema**
-- **Estatísticas do banco** em tempo real
-- **Contagem de registros** por tabela
-- **Data da última cotação**
+#### 6. Coletar Dados B3
+- **Operacao principal** do sistema
+- **Download automatico** da B3
+- **Logs detalhados** do progresso
+- **Classificacao automatica** por tipo/setor
 
-## 🪟 Janelas de Resultado Dedicadas
+### Aba Dados
 
-### **📄 Aba Relatório**
-- **Texto formatado** com estatísticas
-- **Botão copiar** para área de transferência
-- **Scroll automático** para navegar
+Quando aplicavel, os resultados sao exibidos em uma **aba "Dados"** com:
+- **Tabela interativa** com scroll horizontal/vertical
+- **Colunas redimensionaveis**
+- **Dados formatados** e organizados
+- **Busca integrada** (quando disponivel)
 
-### **📊 Aba Dados**
-- **Tabela interativa** com todos os dados
-- **Scroll horizontal/vertical**
-- **Colunas redimensionáveis**
-- **Dados estruturados** para análise
+## Como Usar
 
-## 🎮 Como Usar (Passo a Passo)
+### Fluxo Basico
 
-### **1️⃣ Primeira Execução**
-```
-1. Execute: python main.py
-2. Interface abre automaticamente
-3. Clique: "⭐ Coletar Dados B3" (OBRIGATÓRIO)
-4. Aguarde: Logs mostram progresso
-5. Pronto: Dados coletados para análise
-```
+1. **Primeira Execucao:**
+   - Execute `python main.py`
+   - Interface abre automaticamente
+   - Clique: "Coletar Dados B3 (D-1)" (OBRIGATORIO)
+   - Aguarde conclusao (~5-10 minutos)
 
-### **2️⃣ Consultar Ativos**
-```
-1. Clique: "📋 Consultar Ativos"
-2. Pop-up: Selecione tipo (AÇÃO, FII, ETF) ou deixe vazio
-3. Setor: Carrega automaticamente baseado no tipo
-4. OK: Janela de resultado abre com duas abas
-5. Explore: Relatório formatado + tabela navegável
-```
+2. **Geracao de Dados Historicos (RECOMENDADO):**
+   - Clique: "Dados Historicos (30d)"
+   - Confirme no pop-up
+   - Aguarde processamento (~3-5 minutos)
 
-### **3️⃣ Análise de Cotações**
-```
-1. Clique: "📈 Histórico de Cotações"
-2. Digite: Código do ativo (ex: PETR4, VALE3)
-3. Período: Número de dias (padrão: 30)
-4. Gráfico: Marque checkbox para gerar
-5. Resultado: Estatísticas + arquivo HTML
-```
+3. **Exploracao:**
+   - Clique: "Consultar Ativos"
+   - Selecione filtros desejados
+   - Visualize resultados em abas
 
-## 🔄 Recursos Avançados
+4. **Analise Especifica:**
+   - Clique: "Historico de Cotacoes"
+   - Digite codigo (ex: PETR4)
+   - Clique: "Gerar Grafico"
+   - Grafico abre no navegador
 
-### **Operações Assíncronas**
-- **Threads separadas** para operações longas
-- **Interface responsiva** nunca trava
+## Recursos Avancados
+
+### Filtros Inteligentes
+- **Tipo de Ativo**: Carrega setores correspondentes
+- **Cascata automatica**: Opcoes se ajustam dinamicamente
+- **Validacao**: Impede selecoes invalidas
+
+### Operacoes em Background
+- **Thread separada** para operacoes longas
+- **Interface responsiva** durante processamento
 - **Logs em tempo real** mostram progresso
-- **Cancelamento seguro** se necessário
+- **Botoes desabilitados** durante execucao
 
-### **Filtros Inteligentes**
-- **Tipo primeiro**: Selecione AÇÃO, FII, ETF, BDR
-- **Setor dinâmico**: Carrega setores disponíveis
-- **Cache inteligente**: Evita consultas desnecessárias
-- **Validação automática**: Previne erros
-
-### **Tratamento de Erros**
+### Tratamento de Erros
 - **Pop-ups informativos** para erros
-- **Logs detalhados** para debug
-- **Recuperação automática** quando possível
-- **Fallback para terminal** se necessário
+- **Logs detalhados** no console
+- **Recuperacao automatica** quando possivel
+- **Mensagens claras** para o usuario
 
-## 📱 Layout da Interface
+## Layout da Interface
 
 ```
-┌─────────────────────────────────────────────┐
-│ 📊 Sistema de Análise B3                    │
-├─────────────────────────────────────────────┤
-│ 🔧 OPERAÇÕES DO SISTEMA                     │
-│ [⭐ Coletar Dados B3] [📋 Resumo Sistema]   │
-│ ⚠️ Execute 'Coletar Dados B3' primeiro     │
-├─────────────────────────────────────────────┤
-│ 📊 RELATÓRIOS E CONSULTAS                   │
-│ [📋 Consultar Ativos] [📈 Histórico]       │
-│ [💰 Dividendos]       [🎯 Dashboard]       │
-│ [🚀 Executar Todos]                        │
-├─────────────────────────────────────────────┤
-│ 📝 STATUS E LOGS                            │
-│ ┌─────────────────────────────────────────┐ │
-│ │ 🔌 Testando conexão com banco...       │ │
-│ │ ✅ SUCESSO: Conectado ao PostgreSQL!   │ │
-│ │ 📊 Iniciando consulta de ativos...     │ │
-│ │ ⏳ Processando 14.252 registros...     │ │
-│ │ ✅ Consulta concluída com sucesso!     │ │
-│ └─────────────────────────────────────────┘ │
-├─────────────────────────────────────────────┤
-│                [❌ Sair]                    │
-└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────┐
+│ Sistema de Analise B3                           │
+├─────────────────────────────────────────────────┤
+│ OPERACOES DO SISTEMA                            │
+│ [Coletar Dados B3] [Dados Historicos] [Resumo] │
+├─────────────────────────────────────────────────┤
+│ RELATORIOS E CONSULTAS                          │
+│ [Consultar Ativos] [Historico] [Dividendos]    │
+├─────────────────────────────────────────────────┤
+│ STATUS E LOGS                                   │
+│ ┌─────────────────────────────────────────────┐ │
+│ │ SUCESSO: Conectado ao PostgreSQL!         │ │
+│ │ Iniciando consulta de ativos...           │ │
+│ │ Encontrados 1247 ativos do tipo ACAO     │ │
+│ │ Consulta concluida com sucesso!           │ │
+│ └─────────────────────────────────────────────┘ │
+├─────────────────────────────────────────────────┤
+│                [Sair]                           │
+└─────────────────────────────────────────────────┘
 ```
 
-## 🎯 Filtros e Pop-ups
+## Filtros e Pop-ups
 
-### **Pop-up de Consulta de Ativos**
+### Pop-up de Consulta de Ativos
 ```
-┌─────────────────────────────┐
-│ Filtros para Consulta       │
-├─────────────────────────────┤
-│ Tipo de Ativo:              │
-│ [ACAO ▼] (Dropdown)         │
-│                             │
-│ Setor:                      │
-│ [Bancos ▼] (Dinâmico)       │
-│                             │
-│ 💡 Selecione tipo para      │
-│    filtrar setores          │
-├─────────────────────────────┤
-│      [OK]    [Cancelar]     │
-└─────────────────────────────┘
+┌─────────────────────────────────┐
+│ Filtros para Consulta de Ativos │
+├─────────────────────────────────┤
+│ Tipo de Ativo: [ACAO      ▼]   │
+│ Setor:         [BANCOS    ▼]   │
+├─────────────────────────────────┤
+│ Selecione tipo para             │
+│ carregar setores                │
+├─────────────────────────────────┤
+│        [OK]    [Cancelar]       │
+└─────────────────────────────────┘
 ```
 
-### **Pop-up de Histórico**
+### Pop-up de Historico
 ```
-┌─────────────────────────────┐
-│ Histórico de Cotações       │
-├─────────────────────────────┤
-│ Código do Ativo:            │
-│ [PETR4____________]         │
-│                             │
-│ Período (dias):             │
-│ [30_______________]         │
-│                             │
-│ ☑ Gerar gráfico             │
-├─────────────────────────────┤
-│      [OK]    [Cancelar]     │
-└─────────────────────────────┘
+┌─────────────────────────────────┐
+│ Historico de Cotacoes           │
+├─────────────────────────────────┤
+│ Codigo do Ativo: [PETR4____]   │
+│ Periodo (dias):  [30_______]   │
+├─────────────────────────────────┤
+│          [Buscar Historico]     │
+│          [Gerar Grafico]        │
+│          [Cancelar]             │
+└─────────────────────────────────┘
 ```
 
-## 📈 Arquivos Gerados
+## Arquivos Gerados
 
-Todos os gráficos são salvos como **HTML interativo**:
+A interface gera automaticamente:
 
-- **`historico_[CODIGO].html`** - Gráfico candlestick
-- **`alocacao_setor.html`** - Pizza por setor
-- **`alocacao_tipo.html`** - Pizza por tipo
-- **`rentabilidade_ativos.html`** - Barras de performance
-- **`dividendos_mensal.html`** - Dividendos mensais
+### Graficos HTML Interativos
+- `historico_[CODIGO].html` - Grafico candlestick profissional
+  - Cores estilo TradingView (verde/vermelho)
+  - Linhas de suporte e resistencia
+  - Volume integrado
+  - Abre automaticamente no navegador
+  
+- `dividendos_mensal.html` - Distribuicao de dividendos
 
-## 🔧 Troubleshooting
+### Logs do Sistema
+- Logs detalhados na interface
+- Historico de operacoes
+- Status de conexoes
 
-### **❌ Interface não abre**
+## Troubleshooting
+
+### Interface nao abre
+**Solucao:**
 ```bash
-# Fallback para terminal
-python main.py --terminal
+# Verificar tkinter
+python -c "import tkinter; print('OK')"
 
-# Verificar tkinter (Linux)
-sudo apt-get install python3-tk
+# Executar com logs
+python main.py --verbose
 ```
 
-### **❌ "Nenhum ativo encontrado"**
-```
-Solução: Execute "⭐ Coletar Dados B3" primeiro
-```
+### "Nenhum ativo encontrado"
+**Solucao:**
+1. Execute "Coletar Dados B3" primeiro
+2. Aguarde conclusao completa
+3. Verifique conexao com PostgreSQL
 
-### **❌ Interface trava**
-```
-✅ Normal: Operações longas rodam em background
-✅ Aguarde: Logs mostram progresso em tempo real
-✅ Não force: Deixe a operação concluir
-```
+### Interface trava
+Normal: Operacoes longas rodam em background
+Aguarde: Logs mostram progresso em tempo real
+Nao force: Deixe a operacao concluir
 
-### **❌ Gráficos não geram**
-```bash
-# Verificar Plotly
-pip install plotly
+### Graficos nao geram
+**Verificar:**
+1. Plotly instalado: `pip install plotly`
+2. Dados disponíveis no periodo
+3. Execute "Dados Historicos (30d)" antes
 
-# Verificar permissões de escrita
-ls -la *.html
-```
+## Dicas de Uso
 
-## 💡 Dicas de Uso
+### Fluxo Recomendado
+1. **Configure** o ambiente (Docker + PostgreSQL)
+2. **Colete** dados da B3 (operacao obrigatoria)
+3. **Explore** com consultas (Consultar Ativos)
+4. **Analise** ativos especificos (Historico)
+5. **Gere** dados historicos para graficos completos
 
-### **🎯 Fluxo Recomendado**
-1. **Execute** `python main.py`
-2. **Colete dados** primeiro (⭐ Coletar Dados B3)
-3. **Explore** com consultas (📋 Consultar Ativos)
-4. **Analise** ativos específicos (📈 Histórico)
-5. **Visualize** dashboards (🎯 Dashboard)
+### Filtros Inteligentes
+- **Sempre selecione tipo primeiro** para carregar setores
+- **Use "Todos"** para visao geral
+- **Combine filtros** para analises especificas
 
-### **🔍 Filtros Inteligentes**
-- **Tipo primeiro**: Sempre selecione tipo antes do setor
-- **Cache**: Setores são carregados uma vez por tipo
-- **Vazio = Todos**: Deixe filtros vazios para ver tudo
-- **Combinação**: Use tipo + setor para filtros específicos
+### Visualizacoes
+- **Graficos HTML** sao interativos
+- **Zoom** e **pan** disponiveis
+- **Hover** mostra detalhes
+- **Salve** para apresentacoes
 
-### **📊 Visualizações**
-- **HTML interativo**: Abra gráficos no navegador
-- **Zoom e pan**: Gráficos são totalmente interativos
-- **Exportação**: Use botões do Plotly para salvar
-- **Responsivo**: Gráficos se adaptam ao tamanho
+### Usabilidade
+- **Operacoes longas** nao travam a interface
+- **Logs** mostram progresso em tempo real
+- **Pop-ups** guiam entrada de dados
+- **Abas** organizam resultados
 
-## 🚀 Vantagens da Interface Gráfica
+### Produtividade
+- **Execute "Dados Historicos"** para graficos completos
+- **Use filtros** para analises focadas
+- **Salve graficos** HTML para reutilizar
+- **Monitore logs** para acompanhar progresso
 
-### **✅ Usabilidade**
-- **Cliques simples** substituem comandos
-- **Validação automática** previne erros
-- **Feedback visual** imediato
-- **Não precisa memorizar** códigos
-
-### **✅ Produtividade**
-- **Operações paralelas** não travam
-- **Resultados organizados** em janelas
-- **Logs em tempo real** para acompanhar
-- **Acesso rápido** a todas as funções
-
-### **✅ Profissionalismo**
-- **Interface moderna** e limpa
-- **Dados estruturados** em tabelas
-- **Gráficos interativos** de qualidade
-- **Experiência consistente** multiplataforma
+### Profissionalismo
+- **Graficos estilo TradingView** para apresentacoes
+- **Dados organizados** em tabelas limpas
+- **Interface intuitiva** para todos os niveis
+- **Resultados visuais** impactantes
 
 ---
 
-**🎉 Interface moderna para análise profissional de dados da B3!** 📊
+**Interface moderna para analise profissional de dados da B3!**
