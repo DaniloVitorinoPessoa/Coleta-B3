@@ -135,12 +135,19 @@ B3 API → Coleta → Classificacao → PostgreSQL → Interface → Visualizaca
 ## INTEGRACAO EXTERNA
 
 ### DBeaver (Recomendado)
+
+As credenciais do banco são lidas de variáveis de ambiente. Copie o arquivo
+`.env.example` para `.env` e preencha com os seus valores:
+
 ```
-Host: localhost:5432
-Database: b3
-Username: admin
-Password: admin
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_DB=b3
+POSTGRES_USER=<seu_usuario>
+POSTGRES_PASSWORD=<sua_senha>
 ```
+
+No DBeaver, use os mesmos valores definidos no seu `.env`.
 
 ### Power BI
 ```
