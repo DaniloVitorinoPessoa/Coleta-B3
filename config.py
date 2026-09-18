@@ -7,13 +7,21 @@ from datetime import datetime, timedelta
 from sqlalchemy import create_engine
 
 # Configurações do Banco de Dados
+# As credenciais são lidas de variáveis de ambiente (arquivo .env).
+# Consulte .env.example para os nomes esperados.
 DATABASE_CONFIG = {
-    "host": "localhost",
-    "port": "5432",
-    "database": "b3",
-    "username": "admin",
-    "password": "admin",
+    "host": os.getenv("POSTGRES_HOST", "localhost"),
+    "port": os.getenv("POSTGRES_PORT", "5432"),
+    "database": os.getenv("POSTGRES_DB", "b3"),
+    "username": os.getenv("POSTGRES_USER"),
+    "password": os.getenv("POSTGRES_PASSWORD"),
 }
+
+if not DATABASE_CONFIG["username"] or not DATABASE_CONFIG["password"]:
+    raise RuntimeError(
+        "Defina POSTGRES_USER e POSTGRES_PASSWORD no arquivo .env "
+        "(veja .env.example) antes de executar o projeto."
+    )
 
 # String de conexão
 DATABASE_URL = f"postgresql+psycopg2://{DATABASE_CONFIG['username']}:{DATABASE_CONFIG['password']}@{DATABASE_CONFIG['host']}:{DATABASE_CONFIG['port']}/{DATABASE_CONFIG['database']}"
